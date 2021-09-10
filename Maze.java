@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Maze extends JPanel {
     private int Num, width, padding;
     private final int LineWidth=1;
-    public static final int rate = 132; //7:66*300       8:333*300     6:240*300      5:200*300    10:250*300   3:166*300   4.166*300
+    public static final int rate = 332; //7:66*300       8:333*300     6:240*300      5:200*300    10:250*300   3:166*300   4.166*300
     public ArrayList<Node> BlockList=new ArrayList<>();
     public ArrayList<Node> Uar = new ArrayList<Node>(200);
     public int getCenterX(int x) {
@@ -45,7 +45,7 @@ public class Maze extends JPanel {
             for(int i=0;i<Num;i++)
                 for(int j=0;j<Num;j++){
                     if(!getMaze()[k][i][j].nextNode.isEmpty()){
-                        if (k == 0) g.setColor(Color.RED);
+                        if (k == 0) g.setColor(new Color(255,0,99));
                         else g.setColor(new Color(72, 118, 255));
                         BasicStroke stokeLine = new BasicStroke(LineWidth * 2.0f);
                         Graphics2D g2 = (Graphics2D) g;
@@ -58,21 +58,21 @@ public class Maze extends JPanel {
                     }
                     if(getMaze()[k][i][j].isPin){
                         g.setColor(Color.YELLOW);
-                        g.fillRect(getCenterX(i) - width / 2, getCenterY(j) - width / 2, width, width);
+                        g.fillRect(getCenterX(i) - width / 4, getCenterY(j) - width / 4, width / 2, width / 2);
                     }
                     if (getMaze()[k][i][j].getFlag() == 3) {
                         g.setColor(Color.CYAN);
-                        g.fillRect(getCenterX(i) - width / 2, getCenterY(j) - width / 2, width / 2, width / 2);
+                        g.fillRect(getCenterX(i) - width / 4, getCenterY(j) - width / 4, width / 2, width / 2);
                     }
                     if(getMaze()[k][i][j].getFlag()==2){
                         g.setColor(Color.YELLOW);
                         Node cur = getMaze()[k][i][j];
-                        g.fillRect(getCenterX(cur.getX()) - width / 2, getCenterY(cur.getY()) - width / 2, width, width);
+                        g.fillRect(getCenterX(i) - width / 4, getCenterY(j)-width/4, width / 2, width / 2);
                     }
                     if (getMaze()[k][i][j].getFlag() == 5) {
-                        g.setColor(Color.GRAY);
+                        g.setColor(new Color(255,162,99));
                         Node cur = getMaze()[k][i][j];
-                        g.drawOval(getCenterX(cur.getX()) - width / 2, getCenterY(cur.getY()) - width / 2, width, width);
+                        g.fillOval(getCenterX(cur.getX()) - width / 4, getCenterY(cur.getY())-width/4 , width/2, width/2);
                     }
                 }
         g.setColor(Color.GRAY);
