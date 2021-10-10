@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Maze extends JPanel {
     private int Num, width, padding;
-    private final int LineWidth=1;
+    private int LineWidth=1,Holewidth=3;
     public static final int rate = 332; //7:66*300       8:333*300     6:240*300      5:200*300    10:250*300   3:166*300   4.166*300
     public ArrayList<Node> BlockList=new ArrayList<>();
     public ArrayList<Node> Uar = new ArrayList<Node>(200);
@@ -28,7 +28,15 @@ public class Maze extends JPanel {
 
     private Node[][][] Maze;
 
-    public Maze(int n,int wid,int pad) {
+    public int getHolewidth() {
+        return Holewidth;
+    }
+
+    public void setHolewidth(int holewidth) {
+        Holewidth = holewidth;
+    }
+
+    public Maze(int n, int wid, int pad) {
         this.Num=n;this.width=wid;this.padding=pad;
         Maze = new Node[2][n][n];
         for (int i = 0; i < 200; i++)

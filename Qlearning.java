@@ -7,20 +7,20 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 public class Qlearning {
 
-    private static int EndNum = 99;
-    private static int StartNum = 0;
-    public static final int mapLength = 150, high = 1000000,  mid = 10,width = 1500, padding = 20;
+    private static int EndNum = 99,StartNum = 0;
+    public static final int mapLength = 150, high = 10000000,  mid = 10,width = 1500, padding = 20; //150
     public static int[][] graph = new int[mapLength * mapLength*2][10];
     public static double[][] Q = new double[mapLength * mapLength*2][10];
     public static int[][] indexTable = new int[mapLength * mapLength*2][10];
     public static ArrayList<Node> pointArrayList = new ArrayList<>();
     public static Maze maze = new Maze(mapLength,(width - padding - padding) / mapLength,padding);
     public static ArrayList<Integer> visitedPoint = new ArrayList<>();
-    public static String id="8";
-    static final int yuanx = 118125, yuany = 59000;//8:118345*59823    6:129565*71980   7:138125*97928    5:118700*88700   10:117*73    3:126*87    4.124*80
+    public static String id="3";
+    static final int yuanx = 126125, yuany = 87000;//8:118345*59823    6:129565*71980   7:138125*97928    5:118700*88700   10:117*73    3:126*87    4.124*80
     public static final int MAX_EPISODES = 100000*4;
     public static ArrayList<Integer> nextList=new ArrayList<>();
 
@@ -31,34 +31,14 @@ public class Qlearning {
 //        Map map = new Map(mapLength, (width - padding - padding) / mapLength, padding);
         Long startTime = System.currentTimeMillis();
         Init();ResetGraph();
-        read(maze);
+//        setStartNum(0);setEndNum(55);RunQlearning();
 //        ResetGraph();
-//        for(int i=19;i<=26;i++)
-//            for(int j=30;j<=36;j++)
-//            {
-//                setBlock(pointArrayList.indexOf(maze.getMaze()[0][i][j]));
-//            }
-//        setStartNum(getNum(0,10,10));setEndNum(getNum(0,19,30));RunQlearning();
-//        ResetGraph();setStartNum(getNum(0,5,30));setEndNum(getNum(0,19,31));RunQlearning();
-//        ResetGraph();setStartNum(getNum(0,5,35));setEndNum(getNum(0,19,32));RunQlearning();
-//        ResetGraph();setStartNum(getNum(0,15,10));setEndNum(getNum(0,20,30));RunQlearning();
-//        ResetGraph();setStartNum(getNum(0,15,10));setEndNum(getNum(0,21,30));RunQlearning();
-//        ResetGraph();setStartNum(getNum(0,15,10));setEndNum(getNum(0,22,30));RunQlearning();
-////        ResetGraph();setStartNum(getNum(15,10));setEndNum(getNum(23,30));RunQlearning();
-////        ResetGraph();setStartNum(getNum(30,15));setEndNum(getNum(17,10));RunQlearning();
-//        ResetGraph();setStartNum(getNum(0,30,40));setEndNum(getNum(0,26,35));RunQlearning();
-//        ResetGraph();setStartNum(getNum(0,35,10));setEndNum(getNum(0,30,10));RunQlearning();
-//        ResetGraph();setStartNum(getNum(0,35,15));setEndNum(getNum(0,30,15));RunQlearning();
-//        ResetGraph();setStartNum(getNum(0,35,40));setEndNum(getNum(0,26,33));RunQlearning();
-//        ResetGraph();setStartNum(getNum(0,45,20));setEndNum(getNum(0,35,15));RunQlearning();
-//        ResetGraph();setStartNum(getNum(0,45,25));setEndNum(getNum(0,26,30));RunQlearning();
-//        ResetGraph();setStartNum(getNum(0,45,30));setEndNum(getNum(0,26,32));RunQlearning();
-//        ResetGraph();setStartNum(getNum(0,30,45));setEndNum(getNum(0,21,36));RunQlearning();
-////        ResetGraph();setStartNum(getNum(35,45));setEndNum(getNum(30,45));RunQlearning();
-//        ResetGraph();setStartNum(getNum(0,45,35));setEndNum(getNum(0,35,45));RunQlearning();
-//        ResetGraph();setStartNum(getNum(0,30,10));setEndNum(getNum(0,20,36));RunQlearning();
-//        ResetGraph();setStartNum(getNum(0,35,10));setEndNum(getNum(0,45,35));RunQlearning();
+//        setStartNum(2);setEndNum(40);
+//        RunQlearning();
 
+        read(maze);
+
+//        myDiy();
 
 
         Long endTime = System.currentTimeMillis();
@@ -72,9 +52,43 @@ public class Qlearning {
 //        }
 
     }
+    private static void myDiy(){
+        ResetGraph();
+        for(int i=19;i<=26;i++)
+            for(int j=30;j<=36;j++)
+            {
+                setBlock(pointArrayList.indexOf(maze.getMaze()[0][i][j]));
+            }
+        setStartNum(getNum(0,10,10));setEndNum(getNum(0,19,30));RunQlearning();
+        ResetGraph();setStartNum(getNum(0,5,30));setEndNum(getNum(0,19,31));RunQlearning();
+        ResetGraph();setStartNum(getNum(0,5,35));setEndNum(getNum(0,19,32));RunQlearning();
+        ResetGraph();setStartNum(getNum(0,15,10));setEndNum(getNum(0,20,30));RunQlearning();
+        ResetGraph();setStartNum(getNum(0,15,10));setEndNum(getNum(0,21,30));RunQlearning();
+        ResetGraph();setStartNum(getNum(0,15,10));setEndNum(getNum(0,22,30));RunQlearning();
+//        ResetGraph();setStartNum(getNum(15,10));setEndNum(getNum(23,30));RunQlearning();
+//        ResetGraph();setStartNum(getNum(30,15));setEndNum(getNum(17,10));RunQlearning();
+        ResetGraph();setStartNum(getNum(0,30,40));setEndNum(getNum(0,26,35));RunQlearning();
+        ResetGraph();setStartNum(getNum(0,35,10));setEndNum(getNum(0,30,10));RunQlearning();
+        ResetGraph();setStartNum(getNum(0,35,15));setEndNum(getNum(0,30,15));RunQlearning();
+//        ResetGraph();setStartNum(getNum(0,35,40));setEndNum(getNum(0,26,33));RunQlearning();
+        ResetGraph();setStartNum(getNum(0,45,20));setEndNum(getNum(0,35,15));RunQlearning();
+        ResetGraph();setStartNum(getNum(0,45,25));setEndNum(getNum(0,26,30));RunQlearning();
+        ResetGraph();setStartNum(getNum(0,45,30));setEndNum(getNum(0,26,32));RunQlearning();
+        ResetGraph();setStartNum(getNum(0,30,45));setEndNum(getNum(0,21,36));RunQlearning();
+//        ResetGraph();setStartNum(getNum(35,45));setEndNum(getNum(30,45));RunQlearning();
+        ResetGraph();setStartNum(getNum(0,45,35));setEndNum(getNum(0,35,45));RunQlearning();
+        ResetGraph();setStartNum(getNum(0,30,10));setEndNum(getNum(0,20,36));RunQlearning();
+        ResetGraph();setStartNum(getNum(0,35,10));setEndNum(getNum(0,45,35));RunQlearning();
+//        ResetGraph();setStartNum(getNum(0,26,35));setEndNum(getNum(0,45,20));RunQlearning();
+        ResetGraph();setStartNum(getNum(0,45,30));setEndNum(getNum(0,26,35));RunQlearning();
+        ResetGraph();setStartNum(getNum(0,35,40));setEndNum(getNum(0,26,33));RunQlearning();
+    }
 
     private static int getNum(int k,int i,int j){
         return pointArrayList.indexOf(maze.getMaze()[k][i][j]);
+    }
+    private static int getNum(Node node){
+        return pointArrayList.indexOf(node);
     }
 
     private static void Draw(){
@@ -183,25 +197,17 @@ public class Qlearning {
             }
             if(pk==0) indexTable[i][8]=pointArrayList.indexOf(maze.getMaze()[pk+1][px][py]);
             else indexTable[i][9]=pointArrayList.indexOf(maze.getMaze()[pk-1][px][py]);
+
         }
-        //0 1 2  :n*8
-        //3   4
-        //5 6 7    ↑8  ↓9
 
-        //层数：1
-        //     0
-
-    }
-
-    private static void ResetGraph() {
         for (int[] temp : graph)
             Arrays.fill(temp, -1);
         for (int j = 0; j < pointArrayList.size(); j++)
             for (int i = 0; i < 10; i++) {
                 if (indexTable[j][i] == -1) {
 //                    if (i == 1 || i == 3 || i == 4 || i == 6) {
-                        graph[j][i] = -high;
-                        Q[j][i] = -high;
+                    graph[j][i] = -high*15;
+                    Q[j][i] = -high*15;
 //                    } else {
 //                        graph[j][i] = (int) (-high * 1.4);
 //                        Q[j][i] = (int) (-high * 1.4);
@@ -211,15 +217,61 @@ public class Qlearning {
                         graph[j][i] = -mid;
                     }
                     else if(i==8||i==9) graph[j][i]=(int) (-mid*20);
-                    else graph[j][i] = (int) (-mid * 1.1);
+                    else graph[j][i] = (int) (-mid * 1.4);
                 }
             }
+    }
+
+    //0 3 5  :n*8
+    //1   6
+    //2 4 7    ↑8  ↓9
+
+    //层数：1
+    //     0
+
+    private static void ResetGraph() {
         updateCost();
     }
 
+    private static void updateCost() {
+        for (int i = 0; i < pointArrayList.size(); i++) {
+
+            int[] block = new int[10];
+            for (int j = 0; j < 10; j++) {
+                if (visitedPoint.contains(indexTable[i][j])) {
+                    graph[i][j] = -high*5;
+                    Q[i][j]=-high*5;
+//                    setReward(indexTable[i][j],-high*5);
+//                    if (j == 1 || j == 3 || j == 4 || j == 6) {
+                    block[j] = 1;
+//                    }
+                }
+            }
+            if (block[1] == 1 && block[4] == 1) {graph[i][2] = (int) (-high*5 );Q[i][2]=-high*5;}
+            if (block[1] == 1 && block[3] == 1) {graph[i][0] = (int) (-high*5 );Q[i][0]=-high*5;}
+            if (block[3] == 1 && block[6] == 1) {graph[i][5] = (int) (-high*5 );Q[i][5]=-high*5;}
+            if (block[4] == 1 && block[6] == 1) {graph[i][7] = (int) (-high*5 );Q[i][7]=-high*5;}
+        }
+        for(int i=0;i<pointArrayList.size();i++)
+            for(int j=0;j<10;j++)
+                Q[i][j]=graph[i][j];
+    }
+
+
+    private static void setReward(int pNumber, int Reward) {
+        for (int i = 0; i < pointArrayList.size(); i++)
+            for (int j = 0; j < 10; j++) {
+                if (indexTable[i][j] == pNumber) {
+                    graph[i][j] = Reward;
+                    Q[i][j]=Reward;
+                }
+            }
+    }
+
+
     private static void setBlock(int Number){
         pointArrayList.get(Number).setFlag(2);
-        setReward(Number,-high);
+        setReward(Number,-high*10);
     }
 
     private static void RunQlearning() {
@@ -237,8 +289,8 @@ public class Qlearning {
                 else next = randomNext(indexTable[index]); // 随机选择可行动作
 
                 int reward = graph[index][next]; // 奖励
-                Q[index][next] = (1 - alpha) * Q[index][next] + alpha * (reward + gamma * maxNextQ(Q[indexTable[index][next]],index)); //question!!!
-//                Q[index][next] =reward+gamma*maxNextQ(Q[indexTable[index][next]],index);
+//                Q[index][next] = (1 - alpha) * Q[index][next] + alpha * (reward + gamma * maxNextQ(Q[indexTable[index][next]],index)); //question!!!
+                Q[index][next] =reward+gamma*maxNextQ(Q[indexTable[index][next]],index);
                 index = indexTable[index][next]; // 更新状态
             }
         }
@@ -247,10 +299,14 @@ public class Qlearning {
 //            System.out.println(line + ":" + Arrays.toString(temp));
 //            line++;
 //        }
+
         int next = StartNum;
         visitedPoint.add(next);
         while (next != EndNum) {
             int now=next;
+
+            setHoleRestrict(pointArrayList.get(now),maze);
+
             nextList.add(now);
             System.out.print(next + "->");
             next = indexTable[next][getMaxFlag(Q[next],next)]; // Question!!!
@@ -262,41 +318,7 @@ public class Qlearning {
         System.out.println(EndNum);
     }
 
-    private static void updateCost() {
-        for (int i = 0; i < pointArrayList.size(); i++) {
-            int BlockNum = 0;
-            int[] block = new int[8];
-            for (int j = 0; j < 10; j++) {
-                if (visitedPoint.contains(indexTable[i][j])) {
-                    graph[i][j] = -high;
-                    Q[i][j]=-high;
-                    if (j == 1 || j == 3 || j == 4 || j == 6) {
-                        BlockNum++;
-                        block[j] = 1;
-                    }
-                }
-            }
-            if (BlockNum <= 1) {
-            }
-            else {
-                if (block[1] == 1 && block[4] == 1) graph[i][2] = (int) (-high );
-                if (block[1] == 1 && block[3] == 1) graph[i][0] = (int) (-high );
-                if (block[3] == 1 && block[6] == 1) graph[i][5] = (int) (-high );
-                if (block[4] == 1 && block[6] == 1) graph[i][7] = (int) (-high );
-            }
-        }
-    }
 
-
-    private static void setReward(int pNumber, int Reward) {
-        for (int i = 0; i < mapLength * mapLength; i++)
-            for (int j = 0; j < 10; j++) {
-                if (indexTable[i][j] == pNumber) {
-                    graph[i][j] = Reward;
-                    Q[i][j]=Reward;
-                }
-            }
-    }
 
     private static int randomNext(int[] is) { // 蓄水池抽样，等概率选择流式数据
         int next = 0, n = 1;
@@ -333,13 +355,36 @@ public class Qlearning {
         return flag;
     }
 
+    public static void setHoleRestrict(Node node,Maze maze){
+        int x=node.getX(),y=node.getY(),z=node.getBack(),tempL=maze.getHolewidth()-2;
+        int BackK;
+        if(z==0) BackK=1;
+        else BackK=0;
+        if(tempL<=0) return;
+        for(int i=x-tempL;i<=x+tempL;i++)
+            for(int j=y-tempL;j<=y+tempL;j++){
+//                if(i==x&&j==y) continue;
+//                else {
+                    int num1=getNum(BackK,i,j),num2=getNum(z,i,j);
+                    if(BackK==1) {
+                        graph[num1][9] = -mid*2000;
+                        graph[num2][8] = -mid*2000;
+                    }
+                    else {
+                        graph[num1][8] = -mid*2000;
+                        graph[num2][9] = -mid*2000;
+                    }
+//                }
+            }
+    }
+
     public static int getEndNum() {
         return EndNum;
     }
 
     public static void setEndNum(int endNum) {
         EndNum = endNum;
-        setReward(endNum, high*10);
+        setReward(endNum, high*20);
         pointArrayList.get(endNum).setFlag(2);
     }
 
@@ -417,6 +462,9 @@ public class Qlearning {
                                 break;
                             }
                         }
+
+                        //pin  set high
+
                         while (maze.Uar.contains(null)) maze.Uar.remove(null);
                         for (int z = 0; z < maze.Uar.size(); z++) {
                             if (maze.Uar.get(z) != null && maze.Uar.get(z).getName().equals(name)) {
@@ -424,23 +472,31 @@ public class Qlearning {
                                 my = maze.Uar.get(z).getY();
                                 if (maze.getMaze()[0][mx][my].getAngle() / 90 == 0) {
 //                                    maze.getMaze()[0][mx + cx][my + cy].setReachValue(Maze.MaxValue);
-                                    setReward(getNum(0,mx+cx,my+cy),-high);
+//                                    setReward(getNum(0,mx+cx,my+cy),-high);
+                                    setHoleRestrict(maze.getMaze()[0][mx + cx][my + cy],maze);
                                     maze.getMaze()[0][mx + cx][my + cy].setPin(true);
+                                    maze.getMaze()[0][mx + cx][my + cy].setFlag(2);
                                     maze.Uar.get(z).Mpin.put(n, maze.getMaze()[0][mx + cx][my + cy]);
                                 } else if (maze.getMaze()[0][mx][my].getAngle() / 90 == 1) {
 //                                    maze.getMaze()[0][mx - cy][my + cx].setReachValue(Maze.MaxValue);
-                                    setReward(getNum(0,mx-cy,my+cx),-high);
+//                                    setReward(getNum(0,mx-cy,my+cx),-high);
+                                    setHoleRestrict(maze.getMaze()[0][mx - cy][my + cx],maze);
                                     maze.Uar.get(z).Mpin.put(n, maze.getMaze()[0][mx - cy][my + cx]);
                                     maze.getMaze()[0][mx - cy][my + cx].setPin(true);
+                                    maze.getMaze()[0][mx - cy][my + cx].setFlag(2);
                                 } else if (maze.getMaze()[0][mx][my].getAngle() / 90 == 2) {
 //                                    maze.getMaze()[0][mx - cx][my - cy].setReachValue(Maze.MaxValue);
-                                    setReward(getNum(0,mx-cx,my-cy),-high);
+//                                    setReward(getNum(0,mx-cx,my-cy),-high);
+                                    setHoleRestrict(maze.getMaze()[0][mx - cx][my - cy],maze);
                                     maze.getMaze()[0][mx - cx][my - cy].setPin(true);
+                                    maze.getMaze()[0][mx - cx][my - cy].setFlag(2);
                                     maze.Uar.get(z).Mpin.put(n, maze.getMaze()[0][mx - cx][my - cy]);
                                 } else {
 //                                    maze.getMaze()[0][mx + cy][my - cx].setReachValue(Maze.MaxValue);
-                                    setReward(getNum(0,mx+cy,my-cx),-high);
+//                                    setReward(getNum(0,mx+cy,my-cx),-high);
+                                    setHoleRestrict(maze.getMaze()[0][mx + cy][my - cx],maze);
                                     maze.getMaze()[0][mx + cy][my - cx].setPin(true);
+                                    maze.getMaze()[0][mx + cy][my - cx].setFlag(2);
                                     maze.Uar.get(z).Mpin.put(n, maze.getMaze()[0][mx + cy][my - cx]);
                                 }
                             }
@@ -456,43 +512,43 @@ public class Qlearning {
                                     for (int x = -maxx; x <= maxx; x++)
                                         if (maze.getMaze()[0][mx][my].getAngle() / 90 == 0) {
 
-//                                            setReward(getNum(0,mx+x,my+y),mid*6);
+//                                            setReward(getNum(0,mx+x,my+y),mid*40);
                                             maze.getMaze()[0][mx + x][my + y].setFlag(3);
                                         } else if (maze.getMaze()[0][mx][my].getAngle() / 90 == 1) {
 
-//                                            setReward(getNum(0,mx-y,my+x),mid*6);
+//                                            setReward(getNum(0,mx-y,my+x),mid*40);
                                             maze.getMaze()[0][mx - y][my + x].setFlag(3);
                                         } else if (maze.getMaze()[0][mx][my].getAngle() / 90 == 2) {
 
-//                                            setReward(getNum(0,mx-x,my-y),mid*6);
+//                                            setReward(getNum(0,mx-x,my-y),mid*40);
                                             maze.getMaze()[0][mx - x][my - y].setFlag(3);
                                         } else {
 
-//                                            setReward(getNum(0,mx+y,my+x),mid*6);
+//                                            setReward(getNum(0,mx+y,my+x),mid*40);
                                             maze.getMaze()[0][mx + y][my - x].setFlag(3);
                                         }
                                 } else {
                                     if (maze.getMaze()[0][mx][my].getAngle() / 90 == 0) {
-//                                        setReward(getNum(0,mx+maxx,my+y),mid*6);
-//                                        setReward(getNum(0,mx-maxx,my+y),mid*6);
+//                                        setReward(getNum(0,mx+maxx,my+y),mid*40);
+//                                        setReward(getNum(0,mx-maxx,my+y),mid*40);
                                         maze.getMaze()[0][mx + maxx][my + y].setFlag(3);
                                         maze.getMaze()[0][mx - maxx][my + y].setFlag(3);
                                     } else if (maze.getMaze()[0][mx][my].getAngle() / 90 == 1) {
 //
-//                                        setReward(getNum(0,mx-y,my+maxx),mid*6);
-//                                        setReward(getNum(0,mx-y,my-maxx),mid*6);
+//                                        setReward(getNum(0,mx-y,my+maxx),mid*40);
+//                                        setReward(getNum(0,mx-y,my-maxx),mid*40);
                                         maze.getMaze()[0][mx - y][my + maxx].setFlag(3);
                                         maze.getMaze()[0][mx - y][my - maxx].setFlag(3);
                                     } else if (maze.getMaze()[0][mx][my].getAngle() / 90 == 2) {
 //
-//                                        setReward(getNum(0,mx-maxx,my-y),mid*6);
-//                                        setReward(getNum(0,mx+maxx,my-y),mid*6);
+//                                        setReward(getNum(0,mx-maxx,my-y),mid*40);
+//                                        setReward(getNum(0,mx+maxx,my-y),mid*40);
                                         maze.getMaze()[0][mx - maxx][my - y].setFlag(3);
                                         maze.getMaze()[0][mx + maxx][my - y].setFlag(3);
                                     } else {
 //
-//                                        setReward(getNum(0,mx+y,my-maxx),mid*6);
-//                                        setReward(getNum(0,mx+y,my+maxx),mid*6);
+//                                        setReward(getNum(0,mx+y,my-maxx),mid*40);
+//                                        setReward(getNum(0,mx+y,my+maxx),mid*40);
                                         maze.getMaze()[0][mx + y][my - maxx].setFlag(3);
                                         maze.getMaze()[0][mx + y][my + maxx].setFlag(3);
                                     }
@@ -506,37 +562,43 @@ public class Qlearning {
                     temp = list.get(i);
                     while (list.get(i + 1).matches("(.*) U(.*)")) {
                         i++;
-                        temp.concat(list.get(i));
+                        temp=temp.concat(" "+list.get(i).trim());
                     }
                     temp = temp.replaceAll("\\(pins", "");
                     temp = temp.replaceAll("\\)", "");
                     String[] Sar = temp.trim().split(" ");
+                    ArrayList<Node> nodeList=new ArrayList<>();
                     for (int j = 0; j < Sar.length - 1; ) {
                         String s1 = Sar[j];
-//                        if (Character.isDigit(str[q].charAt(1)))
-//                            uid = Integer.parseInt(str[q].substring(1)) - 1;
-//                        else
-//                            uid=str[q].charAt(1);
                         int a = 0;
                         if (Character.isDigit(s1.charAt(1)))
                             a = Integer.parseInt(s1.substring(1, s1.indexOf("-")).replaceAll("\\D+", ""));
                         else a=maze.Uar.size();
                         String b = s1.substring(s1.indexOf("-")+1).replaceAll("\\)", "");
-                        ResetGraph();
-                        int x1=maze.Uar.get(a - 1).Mpin.get(b).getX(),y1=maze.Uar.get(a - 1).Mpin.get(b).getY();
-                        setStartNum(getNum(0,x1,y1));
 
-//                        maze.setStartNode(maze.Uar.get(a - 1).Mpin.get(b));
+//                        ResetGraph();
+
+                        int x1=maze.Uar.get(a - 1).Mpin.get(b).getX(),y1=maze.Uar.get(a - 1).Mpin.get(b).getY();
+//                        setStartNum(getNum(0,x1,y1));
+                        nodeList.add(maze.getMaze()[0][x1][y1]);
+
                         s1 = Sar[++j];
                         if (Character.isDigit(s1.charAt(1)))
                             a = Integer.parseInt(s1.substring(1, s1.indexOf("-")).replaceAll("\\D+", ""));
                         else a=maze.Uar.size();
                         b = s1.substring(s1.indexOf("-")+1).replaceAll("\\)", "");
                         int x2=maze.Uar.get(a - 1).Mpin.get(b).getX(),y2=maze.Uar.get(a - 1).Mpin.get(b).getY();
-                        setEndNum(getNum(0,x2,y2));
+//                        setEndNum(getNum(0,x2,y2));
+                        nodeList.add(maze.getMaze()[0][x2][y2]);
 
-//                        maze.setEndNode(maze.Uar.get(a - 1).Mpin.get(b));
-//                        maze.search(maze);
+//                        RunQlearning();
+                    }
+                    if(nodeList.size()<=1) continue;
+                    int []RandArr=randomCommon(nodeList.size()-1,nodeList.size()-1);
+                    for(int te:RandArr){
+                        ResetGraph();
+                        setStartNum(getNum(nodeList.get(te)));
+                        setEndNum(getNum(nodeList.get(te+1)));
                         RunQlearning();
                     }
                 }
@@ -564,6 +626,19 @@ public class Qlearning {
             e.printStackTrace();
         }
         return list;
+    }
+
+    public static int[] randomCommon(int max, int n){
+        if(max<0||n<=0) return new int[1];
+        Random random=new Random();
+        int[] result = new int[n],flag=new int[n];
+        for(int i=0;i<result.length;i++) {
+            int x = random.nextInt(n);
+            while (flag[x]==1) x=random.nextInt(n);
+            result[i]=x;
+            flag[x]=1;
+        }
+        return result;
     }
 }
 
